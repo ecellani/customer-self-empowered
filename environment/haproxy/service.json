@@ -1,0 +1,11 @@
+{
+  "service": {
+    "name": "haproxy",
+    "port": 80,
+    "check": {
+      "http": "http://localhost/haproxy",
+      "interval": "10s"
+    }
+  }
+}
+

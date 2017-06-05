@@ -1,0 +1,106 @@
+version: '3'
+services:
+  jenkins:
+    image: rodrigozc/jenkins-docker:latest
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    environment:
+      - "DOCKER_HOST=tcp://172.31.23.133:4243"
+    volumes:
+      - $PWD/jenkins/home:/var/jenkins_home
+    deploy:
+       mode: replicated
+       replicas: 1
+  portainer:
+    image: portainer/portainer:latest
+    ports:
+      - '9000:9000'
+    volumes:
+      - "$PWD/portainer/data:/data"
+    extra_hosts:
+      - "node-leader:172.31.23.133"
+      - "node-worker1:172.31.21.130"
+      - "node-worker2:172.31.28.46"
+    deploy:
+      mode: replicated
+      replicas: 1
+  elk:
+    image: rodrigozc/elk:latest
+    volumes:
+      - $PWD/elk/data:/var/lib/elasticsearch
+      - $PWD/elk/elasticsearch.yml:/etc/elasticsearch/elasticsearch.yml
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+      - "9300:9300"
+    environment:
+      - ES_HEAP_SIZE=10g
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=elk]
+  consul-server:
+    image: consul:latest
+    command: agent -server -bootstrap -ui -client 0.0.0.0
+    volumes:
+      - '$PWD/consul-server/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh'
+      - '$PWD/consul-server/data:/consul/data'
+    environment:
+      - 'CONSUL_ADVERTISE_INTERFACE=eth2'
+      - 'CONSUL_BIND_INTERFACE=eth2'
+    ports:
+      - '8500:8500'
+    deploy:
+      mode: replicated
+      replicas: 1
+  redislocal:
+    image: redis:latest
+  rabbitmqlocal:
+    image: rabbitmq:management
+    ports:
+      - '15672:15672'
+  mock:
+    image: tomcat:8.0-jre8-alpine
+    ports:
+      - '8888:8080'
+    volumes:
+      - '$PWD/mock/webapps:/usr/local/tomcat/webapps'
+  haproxy:
+    image: rodrigozc/haproxy-consul
+    ports:
+      - '80:80'
+    environment:
+      - 'CONSUL_INTERFACE=eth2'
+    volumes:
+      - '$PWD/haproxy/haproxy.template:/usr/local/etc/haproxy/haproxy.template'
+      - '$PWD/haproxy/service.json:/opt/consul/config/service.json'
+      - '$PWD/consul/config.json:/opt/consul/config/config.json'
+    deploy:
+      mode: replicated
+      replicas: 1
+  ms-service-request-type:
+    image: rodrigozc/ms-service-request-type:latest
+    ports:
+      - '5511:5511'
+    volumes:
+      - '$PWD/consul/config.json:/opt/consul/config/config.json'
+    environment:
+      - 'CONSUL_INTERFACE=eth2'
+      - 'JAVA_OPTS=-Ddebug'
+    deploy:
+      mode: replicated
+      replicas: 2
+  ms-business-interactions:
+    image: rodrigozc/ms-business-interactions:latest
+    ports:
+      - '5512:5511'
+    volumes:
+      - '$PWD/consul/config.json:/opt/consul/config/config.json'
+    environment:
+      - 'CONSUL_INTERFACE=eth2'
+      - 'JAVA_OPTS=-Ddebug'
+    deploy:
+      mode: replicated
+      replicas: 2
