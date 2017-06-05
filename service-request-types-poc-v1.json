@@ -1,0 +1,132 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "0.0.1-SNAPSHOT",
+    "title" : "User API"
+  },
+  "host" : "54.89.147.97/v1",
+  "tags" : [ {
+    "name" : "service-request-types",
+    "description" : "Customer Self Empowered Rest Service"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/service-request-types" : {
+      "get" : {
+        "tags" : [ "service-request-types" ],
+        "summary" : "Search the service request types",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "serviceid",
+          "in" : "query",
+          "description" : "The ID of service",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "channel",
+          "in" : "query",
+          "description" : "The channel",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Custom Response with the list of the service request types successfully returned",
+            "schema" : {
+              "$ref" : "#/definitions/CustomResponse"
+            }
+          },
+          "500" : {
+            "description" : "Custom Response with the error description"
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route1"
+      }
+    }
+  },
+  "definitions" : {
+    "ResponseError" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        },
+        "responseStatus" : {
+          "type" : "string"
+        },
+        "messages" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ResponseErrorMessage"
+          }
+        }
+      }
+    },
+    "ResponseErrorMessage" : {
+      "type" : "object",
+      "properties" : {
+        "system" : {
+          "type" : "string"
+        },
+        "statusCode" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "statusDetail" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CustomResponse" : {
+      "type" : "object",
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "payload" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ServiceRequestType"
+          }
+        },
+        "error" : {
+          "$ref" : "#/definitions/ResponseError"
+        }
+      },
+      "x-className" : {
+        "type" : "string",
+        "format" : "br.com.sysmap.application.domain.CustomResponse"
+      }
+    },
+    "ServiceRequestType" : {
+      "type" : "object",
+      "required" : [ "channel", "description", "id", "serviceId" ],
+      "properties" : {
+        "serviceId" : {
+          "type" : "string",
+          "description" : "The serviceId of the service request type"
+        },
+        "channel" : {
+          "type" : "string",
+          "description" : "The channel of the service request type"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The id of the service request type"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "The description of the service request type"
+        }
+      },
+      "description" : "Represents the service request type object",
+      "xml" : {
+        "name" : "sear"
+      }
+    }
+  }
+}

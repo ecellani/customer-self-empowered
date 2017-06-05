@@ -1,0 +1,214 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "0.0.1-SNAPSHOT",
+    "title" : "Business Interactions API"
+  },
+  "host" : "54.89.147.97/v1",
+  "tags" : [ {
+    "name" : "business-interactions",
+    "description" : "Customer self empowered rest service to business interactions"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/business-interactions" : {
+      "post" : {
+        "tags" : [ "business-interactions" ],
+        "summary" : "Generate the business id",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ServiceRequestType"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Custom Response with the business interaction ID",
+            "schema" : {
+              "$ref" : "#/definitions/CustomResponse"
+            }
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route1"
+      }
+    },
+    "/business-interactions/{businessid}" : {
+      "get" : {
+        "tags" : [ "business-interactions" ],
+        "summary" : "Get the service request type",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "businessid",
+          "in" : "path",
+          "description" : "The business id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Custom Response with the business interaction ID"
+          },
+          "404" : {
+            "description" : "Service request type not found"
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route2"
+      },
+      "put" : {
+        "tags" : [ "business-interactions" ],
+        "summary" : "Update entire service request type supplied in body",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "businessid",
+          "in" : "path",
+          "description" : "The business id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "501" : {
+            "description" : "Not Implemented"
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route5"
+      },
+      "delete" : {
+        "tags" : [ "business-interactions" ],
+        "summary" : "Remove the service request type",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "businessid",
+          "in" : "path",
+          "description" : "The business id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Service response type deleted"
+          },
+          "404" : {
+            "description" : "Service request type not found"
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route3"
+      },
+      "patch" : {
+        "tags" : [ "business-interactions" ],
+        "summary" : "Update body fields",
+        "consumes" : [ "application/json;charset=UTF-8" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "businessid",
+          "in" : "path",
+          "description" : "The business id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "501" : {
+            "description" : "Not Implemented"
+          }
+        },
+        "x-camelContextId" : "camel-1",
+        "x-routeId" : "route4"
+      }
+    }
+  },
+  "definitions" : {
+    "ServiceRequestType" : {
+      "type" : "object",
+      "required" : [ "channel", "id", "serviceId" ],
+      "properties" : {
+        "serviceId" : {
+          "type" : "string",
+          "description" : "The serviceId of the service request type"
+        },
+        "channel" : {
+          "type" : "string",
+          "description" : "The channel of the service request type"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "The id of the service request type"
+        },
+        "businessId" : {
+          "type" : "string",
+          "description" : "The business id of the service request type"
+        }
+      },
+      "description" : "Represents the service request type object",
+      "xml" : {
+        "name" : "sear"
+      },
+      "x-className" : {
+        "type" : "string",
+        "format" : "br.com.sysmap.application.domain.ServiceRequestType"
+      }
+    },
+    "ResponseError" : {
+      "type" : "object",
+      "properties" : {
+        "message" : {
+          "type" : "string"
+        },
+        "responseStatus" : {
+          "type" : "string"
+        },
+        "messages" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ResponseErrorMessage"
+          }
+        }
+      }
+    },
+    "ResponseErrorMessage" : {
+      "type" : "object",
+      "properties" : {
+        "system" : {
+          "type" : "string"
+        },
+        "statusCode" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "statusDetail" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CustomResponse" : {
+      "type" : "object",
+      "properties" : {
+        "success" : {
+          "type" : "boolean"
+        },
+        "payload" : {
+          "$ref" : "#/definitions/ServiceRequestType"
+        },
+        "error" : {
+          "$ref" : "#/definitions/ResponseError"
+        }
+      },
+      "x-className" : {
+        "type" : "string",
+        "format" : "br.com.sysmap.application.domain.CustomResponse"
+      }
+    }
+  }
+}

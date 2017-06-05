@@ -1,0 +1,530 @@
+{
+	"variables": [],
+	"info": {
+		"name": "POC Vivo",
+		"_postman_id": "ecd568ec-c687-698d-4770-6f47915d9688",
+		"description": "Serviços Soap e Rest para POC Vivo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "generateBusinessInteraction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"response code is 200\"] = responseCode.code === 200;",
+							"tests[\"body contains id\"] = responseBody.has(\"61e6007fe5b4f03430a7ec1c672bd2a5\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/customer-self-empowered/{{path}}",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml;charset=UTF-8;",
+						"description": ""
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/generateBusinessInteraction\"",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cus=\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/\" xmlns:gen=\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/generateBusinessInteractionEntities\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <cus:generateBusinessInteractionIn>\r\n         <gen:serviceRequestType>\r\n            <gen:id>30693</gen:id>\r\n            <gen:serviceId>1135314695</gen:serviceId>\r\n            <gen:channel>CANAIS_ONLINE</gen:channel>\r\n         </gen:serviceRequestType>\r\n      </cus:generateBusinessInteractionIn>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "searchServiceRequestType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code == 200) {",
+							"    tests[\"response code is 200\"] = responseCode.code === 200;",
+							"    tests[\"body contains id\"] = responseBody.has(\"30769\");",
+							"}",
+							"",
+							"if (responseCode.code == 500) {",
+							"    tests[\"response code is 500\"] = responseCode.code === 500;",
+							"    tests[\"body contains responseStatus\"] = responseBody.has(\"FATAL_ERROR\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8080/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml;charset=UTF-8;",
+						"description": ""
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/generateBusinessInteraction\"",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:cus=\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/\" xmlns:sear=\"http://www.gvt.com.br/CustomerManagement/CustomerSelfManagement/CustomerSelfEmpowered/CustomerSelfEmpowered/searchServiceRequestTypeEntities\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <cus:searchServiceRequestTypeIn>\r\n         <sear:serviceRequestType>\r\n            <sear:channel>CANAIS_ONLINE</sear:channel>\r\n            <sear:serviceId>1135314695</sear:serviceId>\r\n         </sear:serviceRequestType>\r\n      </cus:searchServiceRequestTypeIn>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/service-request-types/api-doc",
+			"request": {
+				"url": {
+					"raw": "http://54.89.147.97/v1/service-request-types?channel=CANAIS_ONLINE&serviceid=1135314603&fields=id,description",
+					"protocol": "http",
+					"auth": {},
+					"host": [
+						"54",
+						"89",
+						"147",
+						"97"
+					],
+					"path": [
+						"v1",
+						"service-request-types"
+					],
+					"query": [
+						{
+							"key": "channel",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "serviceid",
+							"value": "1135314603",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "fields",
+							"value": "id,description",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/service-request-types",
+			"request": {
+				"url": "http://54.89.147.97/v1/service-request-types",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?channel=CANAIS_ONLINE&serviceid=1135314603&fields=id,description",
+			"request": {
+				"url": {
+					"raw": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/teste/service-request-types?serviceid=CANAIS_ONLINE&channel=1135314603",
+					"protocol": "https",
+					"auth": {},
+					"host": [
+						"808d6bf1-b6be-4832-93f5-87f745fa2663",
+						"traffic-emea-trial",
+						"axway",
+						"io"
+					],
+					"path": [
+						"teste",
+						"service-request-types"
+					],
+					"query": [
+						{
+							"key": "channel",
+							"value": "1135314603",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "serviceid",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-interactions/v1/business-interactions",
+			"request": {
+				"url": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-interactions/v1/business-interactions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"31694\",\n\t\"serviceId\": \"1135314695\",\n\t\"channel\": \"CANAIS_ONLINE\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?serviceid=1&channel=1",
+			"request": {
+				"url": {
+					"raw": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-request/v1?serviceid=CANAIS_ONLINE&channel=1135314603",
+					"protocol": "https",
+					"auth": {},
+					"host": [
+						"808d6bf1-b6be-4832-93f5-87f745fa2663",
+						"traffic-emea-trial",
+						"axway",
+						"io"
+					],
+					"path": [
+						"customer-request",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "serviceid",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "channel",
+							"value": "1135314603",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "business-interactions - Sucesso",
+			"request": {
+				"url": "http://54.89.147.97/v1/business-interactions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"30695\",\n\t\"serviceId\": \"1135314695\",\n\t\"channel\": \"CANAIS_ONLINE\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/pet/v2/store/inventory",
+			"request": {
+				"url": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/pet/v2/store/inventory",
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://54.89.147.97/v1/service-request-types?channel=CANAIS_ONLINE&serviceid=1135314603&fields=id,description",
+			"request": {
+				"url": {
+					"raw": "http://54.89.147.97/v1/service-request-types?channel=CANAIS_ONLINE&serviceid=1135314601&fields=id,description",
+					"protocol": "http",
+					"auth": {},
+					"host": [
+						"54",
+						"89",
+						"147",
+						"97"
+					],
+					"path": [
+						"v1",
+						"service-request-types"
+					],
+					"query": [
+						{
+							"key": "channel",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "serviceid",
+							"value": "1135314601",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "fields",
+							"value": "id,description",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": " http://54.89.147.97/v1/business-interactions/61e6007fe5b4f03430a7ec1c672bd2a5",
+			"request": {
+				"url": " http://54.89.147.97/v1/business-interactions/61e6007fe5b4f03430a7ec1c672bd2a5",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "business-interactions - Erro infra legado",
+			"request": {
+				"url": "http://54.89.147.97/v1/business-interactions",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"30695\",\n\t\"serviceId\": \"1135314695\",\n\t\"channel\": \"CANAIS_ONLINE\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?channel=CANAIS_ONLINE&serviceid=1135314603&fields=id,description copy",
+			"request": {
+				"url": {
+					"raw": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?serviceid=CANAIS_ONLINE&channel=1135314603",
+					"protocol": "https",
+					"auth": {},
+					"host": [
+						"808d6bf1-b6be-4832-93f5-87f745fa2663",
+						"traffic-emea-trial",
+						"axway",
+						"io"
+					],
+					"path": [
+						"customer-requests",
+						"v1",
+						"service-request-types"
+					],
+					"query": [
+						{
+							"key": "serviceid",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "channel",
+							"value": "1135314603",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "business-interactions - Erro infra legado copy",
+			"request": {
+				"url": "http://54.89.147.97/v1/business-interactions",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"30697\",\n\t\"serviceId\": \"1135314695\",\n\t\"channel\": \"CANAIS_ONLINE\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?serviceid=CANAIS_ONLINE&channel=1135314603",
+			"request": {
+				"url": {
+					"raw": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-requests/v1/service-request-types?serviceid=CANAIS_ONLINE&channel=1135314603",
+					"protocol": "https",
+					"auth": {},
+					"host": [
+						"808d6bf1-b6be-4832-93f5-87f745fa2663",
+						"traffic-emea-trial",
+						"axway",
+						"io"
+					],
+					"path": [
+						"customer-requests",
+						"v1",
+						"service-request-types"
+					],
+					"query": [
+						{
+							"key": "serviceid",
+							"value": "CANAIS_ONLINE",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "channel",
+							"value": "1135314603",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-interaction/v1/business-interactions/61e6007fe5b4f03430a7ec1c672bd2a5",
+			"request": {
+				"url": "https://808d6bf1-b6be-4832-93f5-87f745fa2663.traffic-emea-trial.axway.io/customer-interactions/v1/business-interactions/61e6007fe5b4f03430a7ec1c672bd2a5",
+				"method": "GET",
+				"header": [
+					{
+						"key": "KeyId",
+						"value": "bf40f2d6-1fea-4a96-8883-f95f9a4fb628",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
