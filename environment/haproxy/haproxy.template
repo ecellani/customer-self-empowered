@@ -1,0 +1,27 @@
+global
+    maxconn 4096
+
+defaults
+    mode http
+    timeout connect 5s
+    timeout client 50s
+    timeout server 50s
+
+listen http-in
+    bind *:80
+
+    stats enable
+    stats uri /haproxy
+    stats refresh 5s
+
+    acl url_service_request_types path_reg -i {{ key "microservices/path_reg/service-request-types" }}
+    acl url_business_interactions path_reg -i {{ key "microservices/path_reg/business-interactions" }}
+
+    use_backend be_service_request_types if url_service_request_types
+    use_backend be_business_interactions if url_business_interactions
+
+backend be_service_request_types{{range service "ms-service-request-type"}}
+    server {{.Node}} {{.Address}}:{{.Port}}{{end}}
+
+backend be_business_interactions{{range service "ms-business-interactions"}}
+    server {{.Node}} {{.Address}}:{{.Port}}{{end}}
